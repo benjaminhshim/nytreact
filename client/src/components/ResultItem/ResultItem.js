@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'mdbreact
 class ResultImage extends React.Component {
   render() {
     return (
-      <Card className="w-25 p-3 d-inline-block mx-2 my-2">
+      <Card className=" p-3 d-inline-block mx-2 my-2">
         <CardBody>
             <CardTitle>{this.props.title}</CardTitle>
             <CardText>{this.props.venue}</CardText>

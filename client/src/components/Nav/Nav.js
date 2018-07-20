@@ -56,7 +56,7 @@ class Nav extends React.Component {
 
     render() {
         return (
-                <Navbar className="default-color" dark expand="md" scrolling>
+                <Navbar className="default-color pl-5 pr-5" dark expand="md" scrolling>
                     <NavbarBrand href="/">
                         <strong>nytreact</strong>
                     </NavbarBrand>

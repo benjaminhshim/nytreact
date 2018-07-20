@@ -12,7 +12,8 @@ export default class SearchPage extends React.Component {
         results: [],
         topic: '',
         startYear: '',
-        endYear: ''
+        endYear: '',
+        videoSrc: ''
     }
 
     // componentDidMount() {
@@ -25,7 +26,7 @@ export default class SearchPage extends React.Component {
         axios.get(`https://rest.bandsintown.com/artists/${topic}/events?app_id=codingbootcamp&date=${startYear}-01-01%2C${endYear}-12-31`)
         // axios.get(`https://rest.bandsintown.com/artists/cardib/events?app_id=codingbootcamp&date=2018-01-01%2C2018-12-31`)
 
-        .then(res => {console.log(res); this.setState({results: res.data})})
+        .then(res => {console.log(res); this.setState({results: res.data}); this.searchMusicVideo(res.data[0].lineup[0])})
         .catch(err => console.log(err))
     }
 
@@ -58,11 +59,19 @@ export default class SearchPage extends React.Component {
         })
     }
 
+    searchMusicVideo = (artist) => {
+        axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artist}&key=AIzaSyBtv3FuM4yag2Qpr17dHewi4EmhFzeWEy0&type=video`)
+        .then(res => this.setState({videoSrc: res.data.items[0].id.videoId}))
+        .catch(err => console.log(err))
+    }
+
 
     render() {
+        const src="https://www.youtube.com/embed/" + this.state.videoSrc;
+
         return (
             <div>
-                <h3 className="mt-5 mb-3">Search Show Dates</h3>
+                <h3 className="mt-5 mb-3">Search Artists</h3>
 
                 <form onSubmit={this.handleSubmit}>
                     
@@ -96,9 +105,25 @@ export default class SearchPage extends React.Component {
                     <Button color="elegant" type="submit">SEARCH</Button>
                 </form >
 
-                <h3 className="mt-5 mb-3">Results</h3>
 
-                <div className="container">
+                <h3 className="mt-5 mb-3">Music Videos</h3>
+                
+                { this.state.videoSrc ? 
+                <div 
+                    className="embed-responsive embed-responsive-16by9 w-50 mt-5" 
+                    style={{margin: "0 auto"}}>
+                    <iframe 
+                        className="embed-responsive-item" 
+                        src={src}></iframe>
+                </div>
+                :
+                <div></div>
+                }
+                
+
+                <h3 className="mt-5 mb-3">Show Dates</h3>
+
+                <div className="">
                 {this.state.results.map(i => (
                     // <li key={i}>{i.headline.main}{i.pub_date}{i.url}</li>
                     <ResultItem 
