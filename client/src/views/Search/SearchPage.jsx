@@ -4,6 +4,8 @@ import API from "../../utils/API";
 
 import ResultItem from '../../components/ResultItem';
 
+import { Form, Input, Button } from 'mdbreact';
+
 export default class SearchPage extends React.Component {
 
     state = {
@@ -13,14 +15,17 @@ export default class SearchPage extends React.Component {
         endYear: ''
     }
 
-    componentDidMount() {
-        this.searchArticles();
-    }
+    // componentDidMount() {
+    //     this.searchArticles();
+    // }
 
     searchArticles = (topic, startYear, endYear) => {
         // axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?query=${topic}&begin_date=${startYear}0101&end_date=${endYear}0101&offset=1&api-key=b9f91d369ff59547cd47b931d8cbc56b:0:74623931`)
-        axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?query=drake&begin_date=20150101&end_date=20180101&offset=1&api-key=b9f91d369ff59547cd47b931d8cbc56b:0:74623931`)
-        .then(res => {console.log(res.data.response.docs); this.setState({results: res.data.response.docs})})
+        // axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?query=drake&begin_date=20150101&end_date=20180101&offset=1&api-key=b9f91d369ff59547cd47b931d8cbc56b:0:74623931`)
+        axios.get(`https://rest.bandsintown.com/artists/${topic}/events?app_id=codingbootcamp&date=${startYear}-01-01%2C${endYear}-12-31`)
+        // axios.get(`https://rest.bandsintown.com/artists/cardib/events?app_id=codingbootcamp&date=2018-01-01%2C2018-12-31`)
+
+        .then(res => {console.log(res); this.setState({results: res.data})})
         .catch(err => console.log(err))
     }
 
@@ -40,65 +45,76 @@ export default class SearchPage extends React.Component {
         console.log(id);
 
         this.state.results.forEach(i => {
-            if (id === i._id) {
+            if (id === i.id) {
                 API.saveArticle({
-                    title: i.headline.main,
-                    date: i.pub_date,
-                    url: i.web_url,
-                    id: i._id
+                    title: i.lineup[0],
+                    date: i.datatime,
+                    url: i.url,
+                    id: i.id
                 })
                 .then(res => console.log('saved'))
                 .catch(err => console.log(err));
             }
         })
-
     }
 
 
     render() {
         return (
             <div>
-                <h1>SearchPage</h1>
-                <form 
-                    onSubmit={this.handleSubmit}>
-                    <div>
-                        Topic
-                        <input 
-                            name='topic'
-                            value={this.state.topic}
-                            onChange={this.onInputChange}/>
-                    </div>
-                    <div>
-                        Start Year
-                        <input 
-                            name='startYear'
-                            value={this.state.startYear}
-                            onChange={this.onInputChange}/>
+                <h3 className="mt-5 mb-3">Search Show Dates</h3>
+
+                <form onSubmit={this.handleSubmit}>
+                    
+                    <div className="row w-75" style={{margin: "0 auto"}}>
+
+                        <div className="col-md-4">
+                            <Input 
+                                label="Artist" 
+                                name='topic'
+                                value={this.state.topic}
+                                onChange={this.onInputChange}/>
+                        </div>
+
+                        <div className="col-md-4">
+                            <Input 
+                                label="Start Year" 
+                                name='startYear'
+                                value={this.state.startYear}
+                                onChange={this.onInputChange}/>
+                        </div>
+
+                        <div className="col-md-4">
+                            <Input 
+                                label="End Year" 
+                                name='endYear'
+                                value={this.state.endYear}
+                                onChange={this.onInputChange}/>
+                        </div>
 
                     </div>
-                    <div>
-                        End Year
-                        <input 
-                            name='endYear'
-                            value={this.state.endYear}
-                            onChange={this.onInputChange}/>
+                    <Button color="elegant" type="submit">SEARCH</Button>
+                </form >
 
-                    </div>
-                    <button>Search</button>
-                </form>
+                <h3 className="mt-5 mb-3">Results</h3>
 
+                <div className="container">
                 {this.state.results.map(i => (
                     // <li key={i}>{i.headline.main}{i.pub_date}{i.url}</li>
                     <ResultItem 
-                        title={i.headline.main}
-                        date={i.pub_date}
-                        url={i.web_url}
-                        key={i._id}
-                        id={i._id}
+                        title={i.lineup[0]}
+                        date={i.datetime}
+                        url={i.url}
+                        venue={i.venue.name}
+                        key={i.id}
+                        id={i.id}
                         saveArticle={this.handleSaveArticle}
                         />
                 ))}
-                
+                </div>
+
+        
+            
             </div>
         )
     }

@@ -1,130 +1,81 @@
-import React from "react";
-import { Link } from "react-router-dom";
+// import React from "react";
+// import { Link } from "react-router-dom";
 
-import withStyles from "@material-ui/core/styles/withStyles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import Header from "components/Header/Header.jsx";
-import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
-import Button from "components/CustomButtons/Button.jsx";
+// const Nav = () => (
+//   <ul className="">
+    
+//     <li className="">
+//       <Link to="/">
+//         Home
+//       </Link>
+//     </li>
+//     <li className="">
+//       <Link to="/results">
+//         Results
+//       </Link>
+//     </li>
+//     <li className="">
+//       <Link to="/saved">
+//         Saved
+//       </Link>
+//     </li>
 
-import navbarsStyle from "assets/jss/material-kit-react/views/componentsSections/navbarsStyle.jsx";
+//   </ul>
+// );
 
-class Nav extends React {
-  render() {
-    return (
-      <GridItem xs={12} sm={12} md={6}>
-              <div className={classes.title}>
-                <h3>Menu with Icons</h3>
-              </div>
-              <Header
-                brand="Icons"
-                color="info"
-                rightLinks={
-                  <List className={classes.list}>
-                    <ListItem className={classes.listItem}>
-                      <Button color="transparent" className={classes.navLink}>
-                        <Email className={classes.icons} />
-                      </Button>
-                    </ListItem>
-                    <ListItem className={classes.listItem}>
-                      <Button color="transparent" className={classes.navLink}>
-                        <Face className={classes.icons} />
-                      </Button>
-                    </ListItem>
-                    <ListItem className={classes.listItem}>
-                      <CustomDropdown
-                        left
-                        hoverColor="info"
-                        dropdownHeader="Dropdown Header"
-                        buttonIcon={Settings}
-                        buttonProps={{
-                          className: classes.navLink,
-                          color: "transparent"
-                        }}
-                        dropdownList={[
-                          "Action",
-                          "Another action",
-                          "Something else here",
-                          { divider: true },
-                          "Separated link",
-                          { divider: true },
-                          "One more separated link"
-                        ]}
-                      />
-                    </ListItem>
-                  </List>
-                }
-              />
-            </GridItem>
-    )
-  }
+
+import React, { Component } from 'react';
+import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink} from 'mdbreact';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+
+class Nav extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapse: false,
+            isWideEnough: false,
+            dropdownOpen: false
+        };
+    this.onClick = this.onClick.bind(this);
+    this.toggle = this.toggle.bind(this);
+    }
+
+    onClick(){
+        this.setState({
+            collapse: !this.state.collapse,
+        });
+    }
+
+    toggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen
+        });
+    }
+
+    render() {
+        return (
+                <Navbar className="default-color" dark expand="md" scrolling>
+                    <NavbarBrand href="/">
+                        <strong>nytreact</strong>
+                    </NavbarBrand>
+                    { !this.state.isWideEnough && <NavbarToggler onClick = { this.onClick } />}
+                    <Collapse isOpen = { this.state.collapse } navbar>
+                        <NavbarNav right>
+                          <NavItem>
+                              <NavLink to="/">Home</NavLink>
+                          </NavItem>
+                          <NavItem>
+                              <NavLink to="/saved">Saved</NavLink>
+                          </NavItem>
+                        
+                        </NavbarNav>
+
+                    </Collapse>
+                </Navbar>
+        );
+    }
 }
-  // <ul className="">
-  //   <li className="">
-  //     <Link to="/">
-  //       Home
-  //     </Link>
-  //   </li>
-  //   <li className="">
-  //     <Link to="/results">
-  //       Results
-  //     </Link>
-  //   </li>
-  //   <li className="">
-  //     <Link to="/saved">
-  //       Saved
-  //     </Link>
-  //   </li>
-
-  // </ul>
-  <GridItem xs={12} sm={12} md={6}>
-              <div className={classes.title}>
-                <h3>Menu with Icons</h3>
-              </div>
-              <Header
-                brand="Icons"
-                color="info"
-                rightLinks={
-                  <List className={classes.list}>
-                    <ListItem className={classes.listItem}>
-                      <Button color="transparent" className={classes.navLink}>
-                        <Email className={classes.icons} />
-                      </Button>
-                    </ListItem>
-                    <ListItem className={classes.listItem}>
-                      <Button color="transparent" className={classes.navLink}>
-                        <Face className={classes.icons} />
-                      </Button>
-                    </ListItem>
-                    <ListItem className={classes.listItem}>
-                      <CustomDropdown
-                        left
-                        hoverColor="info"
-                        dropdownHeader="Dropdown Header"
-                        buttonIcon={Settings}
-                        buttonProps={{
-                          className: classes.navLink,
-                          color: "transparent"
-                        }}
-                        dropdownList={[
-                          "Action",
-                          "Another action",
-                          "Something else here",
-                          { divider: true },
-                          "Separated link",
-                          { divider: true },
-                          "One more separated link"
-                        ]}
-                      />
-                    </ListItem>
-                  </List>
-                }
-              />
-            </GridItem>
-
 
 export default Nav;

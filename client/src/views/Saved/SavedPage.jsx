@@ -35,7 +35,8 @@ export default class SavedPage extends React.Component {
     render() {
         return (
             <div>
-                <h1>SavedPage</h1>
+                <h1 className="mt-5">Saved Show Dates</h1>
+                <div className="container">
 
                 {this.state.results.map(i => (
                     <SavedItem 
@@ -47,6 +48,7 @@ export default class SavedPage extends React.Component {
                     deleteArticle={this.handleDeleteArticle}
                     />
                 ))}
+                </div>
             </div>
         )
     }

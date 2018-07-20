@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "mdbreact": "^4.6.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"
@@ -15,7 +16,9 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@material-ui/core": "^1.4.0",
     "material-kit-react": "^1.1.0",
+    "material-ui": "^0.20.1",
     "react-router-dom": "^4.3.1"
   }
 }
