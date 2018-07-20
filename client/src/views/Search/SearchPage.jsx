@@ -17,7 +17,8 @@ export default class SearchPage extends React.Component {
         startYear: '',
         endYear: '',
         videoSrc: '',
-        videoResults: []
+        videoResults: [],
+        selectedVideo: null
     }
 
     // componentDidMount() {
@@ -66,13 +67,15 @@ export default class SearchPage extends React.Component {
     searchMusicVideo = (artist) => {
         axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artist}&key=AIzaSyBtv3FuM4yag2Qpr17dHewi4EmhFzeWEy0&type=video`)
         // .then(res => this.setState({videoSrc: res.data.items[0].id.videoId}))
-        .then(res => this.setState({videoResults: res.data.items}))
+        .then(res => {this.setState({videoResults: res.data.items}); console.log(res.data.items)})
+
         .catch(err => console.log(err))
     }
 
 
     render() {
         // const src="https://www.youtube.com/embed/" + this.state.videoSrc;
+        const newArr = [...this.state.results].slice(0, 10);
 
         return (
             <div>
@@ -120,13 +123,14 @@ export default class SearchPage extends React.Component {
                 ))} */}
 
                 <VideoDisplay 
-                    videoResults={this.state.videoResults} />
+                    videoResults={this.state.videoResults} 
+                    setMainVideo={selectedVideo => this.setState({selectedVideo})}/>
                 
 
                 <h3 className="mt-5 mb-3">Show Dates</h3>
 
                 <div className="">
-                {this.state.results.map(i => (
+                {newArr.map(i => (
                     // <li key={i}>{i.headline.main}{i.pub_date}{i.url}</li>
                     <ResultItem 
                         title={i.lineup[0]}
