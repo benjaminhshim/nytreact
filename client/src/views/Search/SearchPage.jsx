@@ -3,8 +3,11 @@ import axios from 'axios';
 import API from "../../utils/API";
 
 import ResultItem from '../../components/ResultItem';
+import VideoItem from '../../components/VideoItem';
+import VideoDisplay from '../../components/VideoDisplay';
 
-import { Form, Input, Button } from 'mdbreact';
+
+import { Input, Button } from 'mdbreact';
 
 export default class SearchPage extends React.Component {
 
@@ -13,7 +16,8 @@ export default class SearchPage extends React.Component {
         topic: '',
         startYear: '',
         endYear: '',
-        videoSrc: ''
+        videoSrc: '',
+        videoResults: []
     }
 
     // componentDidMount() {
@@ -61,13 +65,14 @@ export default class SearchPage extends React.Component {
 
     searchMusicVideo = (artist) => {
         axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artist}&key=AIzaSyBtv3FuM4yag2Qpr17dHewi4EmhFzeWEy0&type=video`)
-        .then(res => this.setState({videoSrc: res.data.items[0].id.videoId}))
+        // .then(res => this.setState({videoSrc: res.data.items[0].id.videoId}))
+        .then(res => this.setState({videoResults: res.data.items}))
         .catch(err => console.log(err))
     }
 
 
     render() {
-        const src="https://www.youtube.com/embed/" + this.state.videoSrc;
+        // const src="https://www.youtube.com/embed/" + this.state.videoSrc;
 
         return (
             <div>
@@ -108,17 +113,14 @@ export default class SearchPage extends React.Component {
 
                 <h3 className="mt-5 mb-3">Music Videos</h3>
                 
-                { this.state.videoSrc ? 
-                <div 
-                    className="embed-responsive embed-responsive-16by9 w-50 mt-5" 
-                    style={{margin: "0 auto"}}>
-                    <iframe 
-                        className="embed-responsive-item" 
-                        src={src}></iframe>
-                </div>
-                :
-                <div></div>
-                }
+                {/* {this.state.videoResults.map(i => (
+                    <VideoItem 
+                        src={i.id.videoId}
+                        key={i}/>
+                ))} */}
+
+                <VideoDisplay 
+                    videoResults={this.state.videoResults} />
                 
 
                 <h3 className="mt-5 mb-3">Show Dates</h3>

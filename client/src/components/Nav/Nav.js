@@ -58,7 +58,7 @@ class Nav extends React.Component {
         return (
                 <Navbar className="default-color pl-5 pr-5" dark expand="md" scrolling>
                     <NavbarBrand href="/">
-                        <strong>nytreact</strong>
+                        <strong>mern</strong>
                     </NavbarBrand>
                     { !this.state.isWideEnough && <NavbarToggler onClick = { this.onClick } />}
                     <Collapse isOpen = { this.state.collapse } navbar>
