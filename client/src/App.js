@@ -4,6 +4,7 @@ import './App.css';
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
 
+import Nav from './components/Nav';
 import SearchPage from "./views/Search/SearchPage.jsx";
 import ResultsPage from "./views/Results/ResultsPage.jsx";
 import SavedPage from "./views/Saved/SavedPage.jsx";
@@ -16,12 +17,12 @@ class App extends Component {
     return (
       <div className="App">
         <Router history={hist}>
-          <Switch>
+        <div>
+            <Nav />
             <Route exact path="/" component={SearchPage} />
             <Route path="/results" component={ResultsPage} />
             <Route path="/saved" component={SavedPage} />
-
-        </Switch>
+        </div>
       </Router>
       </div>
     );
