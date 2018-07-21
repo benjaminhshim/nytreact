@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 
 import Nav from './components/Nav';
 import SearchPage from "./views/Search/SearchPage.jsx";

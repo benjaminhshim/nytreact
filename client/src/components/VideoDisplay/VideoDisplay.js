@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Fa, Button } from 'mdbreact';
+import { Container, Row, Col } from 'mdbreact';
 import VideoItem from '../VideoItem';
+import MainVideo from '../MainVideo';
 
-class FeaturesPage extends Component {
-  state = {
-    mainVideo: false
-  }
-
-
+class VideoDisplay extends Component {
 
   render() {
     return(
@@ -15,31 +11,33 @@ class FeaturesPage extends Component {
         <section className="my-5">
           <Row>
             
+            <Col lg="8" className="text-center text-lg-left" style={{margin: "0 auto"}}>
 
-            <Col lg="5" className="text-center text-lg-left">
-              <img  className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/screens-section.jpg" alt="Sample image" />
-              {/* <iframe src={this.props.videoResults[0].id.videoId}>
-              </iframe> */}
-            </Col>
+              <MainVideo lg="5" 
+                className="text-center" 
+                mainVideo={this.props.mainVideo}
+                saveVideo={this.props.saveVideo}/>
 
-            <Col lg="7" className="flex-row" style={{border: "1px solid red"}}>
-                <Row className="mb-3" style={{border: "1px solid green"}}>
-
-                {this.props.videoResults.map(i => (
-                    <VideoItem 
-                        src={i.id.videoId}
-                        thumbnail={i.snippet.thumbnails.default.url}
-                        video={i}
-                        setMainVideo={this.props.setMainVideo}/>
-                ))}
-                </Row>
             </Col>
 
           </Row>
+
+          <Row className="mb-3">
+
+            {this.props.videoResults.map(i => (
+                <VideoItem 
+                    src={i.id.videoId}
+                    key={i}
+                    thumbnail={i.snippet.thumbnails.medium.url}
+                    video={i}
+                    setMainVideo={this.props.setMainVideo}/>
+            ))}
+          </Row>
+
         </section>
       </Container>
     );
   };
 }
 
-export default FeaturesPage;
+export default VideoDisplay;

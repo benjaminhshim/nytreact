@@ -3,7 +3,6 @@ import axios from 'axios';
 import API from "../../utils/API";
 
 import ResultItem from '../../components/ResultItem';
-import VideoItem from '../../components/VideoItem';
 import VideoDisplay from '../../components/VideoDisplay';
 
 
@@ -21,15 +20,9 @@ export default class SearchPage extends React.Component {
         selectedVideo: null
     }
 
-    // componentDidMount() {
-    //     this.searchArticles();
-    // }
-
     searchArticles = (topic, startYear, endYear) => {
-        // axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?query=${topic}&begin_date=${startYear}0101&end_date=${endYear}0101&offset=1&api-key=b9f91d369ff59547cd47b931d8cbc56b:0:74623931`)
-        // axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?query=drake&begin_date=20150101&end_date=20180101&offset=1&api-key=b9f91d369ff59547cd47b931d8cbc56b:0:74623931`)
         axios.get(`https://rest.bandsintown.com/artists/${topic}/events?app_id=codingbootcamp&date=${startYear}-01-01%2C${endYear}-12-31`)
-        // axios.get(`https://rest.bandsintown.com/artists/cardib/events?app_id=codingbootcamp&date=2018-01-01%2C2018-12-31`)
+
 
         .then(res => {console.log(res); this.setState({results: res.data}); this.searchMusicVideo(res.data[0].lineup[0])})
         .catch(err => console.log(err))
@@ -64,11 +57,33 @@ export default class SearchPage extends React.Component {
         })
     }
 
+    handleSaveVideo = video => {
+        console.log(video.id.videoId);
+
+        this.state.videoResults.forEach(i => {
+
+            if (video.id.videoId === i.id.videoId) {
+
+                API.saveVideo({
+                    title: i.snippet.title,
+                    date: i.snippet.publishedAt,
+                    url: i.id.videoId,
+                })
+                .then(res => console.log('saved'))
+                .catch(err => console.log(err));
+            }
+        })
+    }
+
     searchMusicVideo = (artist) => {
         axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${artist}&key=AIzaSyBtv3FuM4yag2Qpr17dHewi4EmhFzeWEy0&type=video`)
         // .then(res => this.setState({videoSrc: res.data.items[0].id.videoId}))
-        .then(res => {this.setState({videoResults: res.data.items}); console.log(res.data.items)})
-
+        .then(res => {
+            this.setState({
+                videoResults: res.data.items, 
+                selectedVideo: res.data.items[0]
+            }); 
+            console.log(res.data.items)})
         .catch(err => console.log(err))
     }
 
@@ -116,14 +131,10 @@ export default class SearchPage extends React.Component {
 
                 <h3 className="mt-5 mb-3">Music Videos</h3>
                 
-                {/* {this.state.videoResults.map(i => (
-                    <VideoItem 
-                        src={i.id.videoId}
-                        key={i}/>
-                ))} */}
-
                 <VideoDisplay 
-                    videoResults={this.state.videoResults} 
+                    videoResults={this.state.videoResults}
+                    mainVideo={this.state.selectedVideo}
+                    saveVideo={this.handleSaveVideo}
                     setMainVideo={selectedVideo => this.setState({selectedVideo})}/>
                 
 
@@ -131,7 +142,6 @@ export default class SearchPage extends React.Component {
 
                 <div className="">
                 {newArr.map(i => (
-                    // <li key={i}>{i.headline.main}{i.pub_date}{i.url}</li>
                     <ResultItem 
                         title={i.lineup[0]}
                         date={i.datetime}
@@ -143,8 +153,6 @@ export default class SearchPage extends React.Component {
                         />
                 ))}
                 </div>
-
-        
             
             </div>
         )
