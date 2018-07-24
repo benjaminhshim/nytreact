@@ -51,7 +51,9 @@ export default class SearchPage extends React.Component {
                     url: i.url,
                     id: i.id
                 })
-                .then(res => console.log('saved'))
+                .then(res => {
+                    console.log('saved');
+                })
                 .catch(err => console.log(err));
             }
         })

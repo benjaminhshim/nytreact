@@ -30,7 +30,7 @@ class SavedVideo extends React.Component {
                 <CardBody>
                     <CardTitle>
                         <iframe 
-                            className="embed-responsive-item" 
+                            className="embed-responsive embed-responsive-item" 
                             src={`https://www.youtube.com/embed/${this.props.src}`}>
                         </iframe>
                     </CardTitle>

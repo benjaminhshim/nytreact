@@ -41,7 +41,7 @@ export default class SavedPage extends React.Component {
         // this.state.results.forEach(i => {
         //     if (id === i._id) {
                 API.deleteArticle(id)
-                .then(res => console.log('deleted article'))
+                .then(res => {console.log('deleted article'); ; window.location.reload()})
                 .catch(err => console.log(err));
         //     }
         // })
@@ -54,7 +54,7 @@ export default class SavedPage extends React.Component {
         // this.state.results.forEach(i => {
         //     if (id === i._id) {
                 API.deleteVideo(id._id)
-                .then(res => console.log('deleted video'))
+                .then(res => {console.log('deleted video'); window.location.reload()})
                 .catch(err => console.log(err));
         //     }
         // })
