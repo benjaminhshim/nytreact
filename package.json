@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"cd client && PORT=3000 yarn start\" \"cd server && PORT=3001 yarn start\"",
+    "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
     "start:prod": "nodemon server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
     "client": "cd client && yarn start",
