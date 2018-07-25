@@ -9,8 +9,8 @@
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
     "client": "cd client && yarn start",
     "seed": "node scripts/seedDB.js",
-    "install": "(cd client && yarn) && (cd server && yarn)",
-    "build": "concurrently \"cd client && yarn build\" \"cd server && yarn build\"",
+    "install": "cd client && yarn install",
+    "build": "concurrently \"cd client && yarn build\"",
     "heroku-postbuild": "yarn build"
   },
   "repository": {
